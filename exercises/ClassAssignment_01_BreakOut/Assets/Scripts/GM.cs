@@ -47,16 +47,16 @@ public class GM : MonoBehaviour {
 
         if (lives < 1)
         {
-           gameOver.SetActive(true);
+            gameOver.SetActive(true);
             Time.timeScale = .25f;
             Invoke("Reset", resetDelay);
         }
     }
-        void Reset()
-{
-    Time.timeScale = 1f;
-    Application.LoadLevel(Application.loadedLevel);
-}
+    void Reset()
+    {
+        Time.timeScale = 1f;
+        Application.LoadLevel(Application.loadedLevel);
+    }
     // Update is called once per frame
     public void LoseLife()
     {
@@ -75,10 +75,9 @@ public class GM : MonoBehaviour {
     {
         clonePaddel = Instantiate(paddle, transform.position, Quaternion.identity) as GameObject;
     }
-   }
-public void DestoryBrick()
-   {
-       Bricks--;
-       CheckGameOver();
-   }
+    public void DestoryBrick()
+    {
+        bricks--;
+        CheckGameOver();
+    }
 }

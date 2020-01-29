@@ -11,6 +11,6 @@ public class Bricks : MonoBehaviour
     {
         Instantiate(brickParticle, transform.position, Quaternion.identity);
         GM.instances.DestoryBrick();
-        Destory(GameObject);
+        Destroy(gameObject);
     }
 }
