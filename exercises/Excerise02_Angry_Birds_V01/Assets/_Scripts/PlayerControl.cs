@@ -2,39 +2,44 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerControl : MonoBehaviour
+public class PlayerControll : MonoBehaviour
 {
-
     public GameObject piggy;
     public float power = 50f;
     private Rigidbody2D piggyBody;
     // Start is called before the first frame update
     void Start()
     {
-
+        piggyBody = piggy.GetComponent<Rigidbody2D>();
+        piggyBody.gravityScale = 0;
     }
 
     // Update is called once per frame
     void Update()
     {
-        Vector3 mouseInWorld = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));
+        // mouse point on screen is read from Input and by moving to 0 on z axis from the camera position
+        Vector3 mousePointOnScreen = new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z);
 
+        Vector3 mouseInWorld = Camera.main.ScreenToWorldPoint(mousePointOnScreen);
         Vector3 direction = mouseInWorld - transform.position;
 
-        float alpha = Mathf.Acos(
+        // to find an angle between two vectors, you need to calculate the Dot product between the NORMALIZED vetors.
+        // and retrieve the angle from the dot product, by calculating arccosine of it
 
-        Vector3.Dot(Vector3.right, direction.normalized)) * Mathf.Rad2Deg;
+        float cosAlpha = Vector3.Dot(Vector3.right, direction.normalized);
 
-        if (alpha <= 0 && alpha > 0 && direction.y > 0)
+
+
+        float alpha = Mathf.Acos(cosAlpha);
+
+        transform.rotation = Quaternion.Euler(0, 0, alpha * Mathf.Rad2Deg);
+
+        if (Input.GetButtonDown("Fire1"))
         {
-            transform.rotation = Quaternion.Euler(0, 0, alpha * Mathf.Rad2Deg);
-
-            if (Input.GetButtonDown("Fire1"))
-            {
-                piggy.transform.parent = null;
-                piggyBody.gravityScale = 1;
-                piggyBody.AddForce(direction * power);
-            }
+            piggy.transform.parent = null;
+            piggyBody.gravityScale = 1;
+            piggyBody.AddForce(direction * power);
         }
+
     }
 }
