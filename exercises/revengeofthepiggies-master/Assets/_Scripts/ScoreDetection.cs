@@ -21,7 +21,7 @@ public class ScoreDetection : MonoBehaviour
         if (collision.gameObject.tag != "Floor")
         {
             scoreManager.PiggyColStructure();
-            //Debug.Log("Score" + scoreManager.getScore());
+            Debug.Log("Score" + scoreManager.getScore());
         }
     }
     void ResetPiggy()
