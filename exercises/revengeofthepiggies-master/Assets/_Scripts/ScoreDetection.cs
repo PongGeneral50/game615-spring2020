@@ -8,6 +8,7 @@ public class ScoreDetection : MonoBehaviour
     const int TIME_TO_RESET = 3;
     Vector3 orginalposistion;
     Transform parent;
+    bool isFirst = false;
 
      void Start()
     {
@@ -17,11 +18,15 @@ public class ScoreDetection : MonoBehaviour
 
     void OnCollisionEnter2D(Collision2D collision)
     {
-        Invoke("ResetPiggy", TIME_TO_RESET);
-        if (collision.gameObject.tag != "Floor")
+        if (isFirst == false)
         {
-            scoreManager.PiggyColStructure();
-            Debug.Log("Score" + scoreManager.getScore());
+            isFirst = true;
+            Invoke("ResetPiggy", TIME_TO_RESET);
+            if (collision.gameObject.tag != "Floor")
+            {
+                scoreManager.PiggyColStructure();
+                Debug.Log("Score" + scoreManager.getScore());
+            }
         }
     }
     void ResetPiggy()
@@ -33,6 +38,7 @@ public class ScoreDetection : MonoBehaviour
         transform.parent = parent;
         transform.localPosition = orginalposistion;
         Camera.main.GetComponent<CameraFollow>().resetCameraPosition();
+        isFirst = false;
     }
 
 }
